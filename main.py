@@ -4,7 +4,6 @@ import test
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print("Device: ",device)
-exit(0)
 
 print("Training started...")
 train.train(device)
