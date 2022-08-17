@@ -25,23 +25,24 @@ def crop(file, outfile, left, up, right, bottom):
     xmax = xoff + (ds.RasterXSize * xres)
     ymax = yoff + (ds.RasterYSize * yres)
 
-    print("xoff", xoff)
-    print("yoff", yoff)
-
-    print("target_left", left)
-    print("target_right", right)
-    print("target_up", up)
-    print("target_bottom",bottom)
-
-    print("xmax", xmax)
-    print("ymax", ymax)
+    # print("xoff", xoff)
+    # print("yoff", yoff)
+    #
+    # print("target_left", left)
+    # print("target_right", right)
+    # print("target_up", up)
+    # print("target_bottom",bottom)
+    #
+    # print("xmax", xmax)
+    # print("ymax", ymax)
 
     if not within_box(xoff, yoff, xmax, ymax, left, up, right, bottom):
         raise Exception("Bounding box outside image")
 
-    bbox = (xoff,yoff,xmax,ymax)
-    bbox = (xoff,yoff,500,500)
-    gdal.Translate(outfile, file, srcWin=bbox)
+    bbox = (left,up,right,bottom)
+    # bbox = (xoff,yoff,500,500)
+    # bbox = (142.0, -36.4, 142.3, -36.8)
+    gdal.Translate(outfile, file, projWin=bbox)
 
 
 if __name__ == "__main__":

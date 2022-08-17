@@ -44,8 +44,8 @@ print("yres", yres)
 geo_width = (right-xoff)
 geo_height = (yoff-down)
 
-val_pix_width = geo_width/yres
-val_pix_height = geo_height/xres
+val_pix_width = geo_width/xres
+val_pix_height = geo_height/yres
 
 print("geo_width", geo_width)
 print("geo_height", geo_height)
