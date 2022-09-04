@@ -1,28 +1,16 @@
 import os
 import rasterio as rio
 from PIL import Image
-
-def explore(file):
-    print(file)
-    with rio.open(file, 'r') as f:
-        for x in range(1, f.count + 1):
-            y = f.read(x)
-            print(y.shape)
-        print(f.count)
-        print(f.bounds)
+import numpy
 
 
-def explore_sat():
-    for file in os.listdir(sat):
-        path = os.path.join(sat, file)
-        explore(path)
+def explore_sat(src):
+    x = Image.open(src)
+    ar = numpy.asarray(x)
+    print(ar.shape)
+
+src = "C:/Users/Administrator/Desktop/exp1/data/out/patches/10/200.png"
+explore_sat(src)
 
 
-dem = r'data/out/resized/dem/dem.tif'
-soc = r'data/out/resized/soc/000_005.tif'
-sat = r'data/out/resized/sat'
-
-explore(dem)
-explore(soc)
-explore_sat()
 
