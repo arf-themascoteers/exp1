@@ -15,35 +15,27 @@ from sklearn import model_selection
 
 class SatDataset(Dataset):
     def __init__(self, is_train=True):
+        self.IMAGE_HEIGHT = 64
+        self.IMAGE_WIDTH = 64
         self.is_train = is_train
         self.img_dir = "data/out/patches"
         self.csv_file_location = "data/out/csv.csv"
         self.work_csv_file_location = "data/out/work.csv"
+        self.scalers = {}
         self.transforms = transforms.Compose([
             transforms.ToTensor(),
-            transforms.Resize(64)
+            transforms.Resize(self.IMAGE_HEIGHT)
         ])
         self.count_bands = len(os.listdir(self.img_dir))
         self.count_patches = len(os.listdir(os.path.join(self.img_dir,"1")))
-        self.image_list = []
-        self.dem_list = []
-        self.soc_list = []
-        df = pd.read_csv(self.csv_file_location)
-        train, test = model_selection.train_test_split(df, test_size=0.2)
-        df = train
+        self.df = pd.read_csv(self.csv_file_location)
+        train, test = model_selection.train_test_split(self.df, test_size=0.2)
+        self.df = train
         if not self.is_train:
-            df = test
+            self.df = test
 
-        df = self._preprocess(df)
-        df.to_csv(self.work_csv_file_location)
-        exit(0)
-        i = 0
-        for patch in range(1,):
-            self.image_list.append(image)
-            self.age_list.append(age)
-            i = i + 1
-
-        self.__scale__()
+        self.df = self._preprocess(self.df)
+        self.df.to_csv(self.work_csv_file_location)
 
     def _preprocess(self, df):
         self.__scale__(df)
@@ -56,30 +48,40 @@ class SatDataset(Dataset):
 
     def __scale_col__(self, df, col):
         x = df[[col]].values.astype(float)
-        min_max_scaler = MinMaxScaler()
-        x_scaled = min_max_scaler.fit_transform(x)
+        self.scalers[col] = MinMaxScaler()
+        x_scaled = self.scalers[col].fit_transform(x)
         df[col] = x_scaled
         return df
 
-    def unscale(self, values):
+    def unscale(self, values, col):
         values = [[i] for i in values]
-        values = self.scaler.inverse_transform(values)
+        values = self.scalers[col].inverse_transform(values)
         values = [i[0] for i in values]
         return values
 
     def __len__(self):
-        return len(self.image_list)
+        return len(self.df)
 
     def __getitem__(self, idx):
-        image_name = self.image_list[idx]
-        age = self.age_list[idx]
-        age_torch = self.age_torch_list[idx]
-        img_path = os.path.join(self.img_dir, age, image_name)
-        image = PIL.Image.open(img_path)
-        image = self.transforms(image)
-        return image, age_torch
+        id = str(int(self.df.iloc[idx]["id"]))
+        elevation = self.df.iloc[idx]["elevation"]
+        soc = self.df.iloc[idx]["soc"]
+        images = torch.zeros((1, self.count_bands, self.IMAGE_HEIGHT, self.IMAGE_WIDTH))
+        for band in range(1,self.count_bands+1):
+            img_path = os.path.join(self.img_dir, str(band), id+".png")
+            image = PIL.Image.open(img_path)
+            image = self.transforms(image)
+            images[0,band-1,:,:] = image
+
+        return images, torch.tensor(elevation, dtype=torch.float32), torch.tensor(soc, dtype=torch.float32)
+
 
 if __name__ == "__main__":
     cid = SatDataset()
     dataloader = DataLoader(cid, batch_size=1, shuffle=True)
+    for images, elevation, soc in dataloader:
+        print(images)
+        print(elevation)
+        print(soc)
+        exit(0)
 

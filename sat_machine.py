@@ -1,26 +1,30 @@
 import torch.nn as nn
 import torch.nn.functional as F
 import torchvision
-
+import torch
 
 class SatMachine(nn.Module):
     def __init__(self):
         super().__init__()
-        self.resnet = torchvision.models.resnet18(pretrained=True)
-        number_input = self.resnet.fc.in_features
-        self.resnet.fc = nn.Sequential(
-            nn.Linear(number_input, 256),
-            nn.BatchNorm1d(256),
-            nn.ReLU(),
-            nn.Linear(256, 1),
-            nn.Sigmoid()
+        self.N_BANDS = 12
+        self.machine = nn.Sequential(
+                nn.Conv3d(1, 8, (1, 7, 7)),
+                nn.ReLU(),
+                nn.MaxPool3d((1, 4, 4)),
+                nn.Conv3d(8, 16, (1, 7, 7)),
+                nn.ReLU(),
+                nn.MaxPool3d((1, 4, 4)),
+                nn.Conv3d(16, 32, (4, 1, 1)),
+                nn.ReLU(),
+                nn.MaxPool3d((3, 1, 1)),
+                nn.Flatten(),
+                nn.Linear(384, 128),
+                nn.ReLU(),
+                nn.Linear(128, 1),
+                nn.Sigmoid()
         )
 
-        for param in self.resnet.layer1.parameters():
-            param.requires_grad = False
-
-
     def forward(self, x):
-        x = self.resnet(x)
+        x = self.machine(x)
         return x
 

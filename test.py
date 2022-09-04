@@ -18,7 +18,7 @@ def test(device):
     itr = 0
     results = []
 
-    for (x, y) in dataloader:
+    for (x, elevation, y) in dataloader:
         x = x.to(device)
         y = y.to(device)
         y_hat = model(x)
@@ -32,9 +32,9 @@ def test(device):
 
     gt2 = [i[0] for i in results]
     hat2 = [i[1] for i in results]
-    gt = cid.unscale(gt2)
-    hat= cid.unscale(hat2)
-    print(f"Actual Age\t\t\tPredicted Age")
+    gt = cid.unscale(gt2,"soc")
+    hat= cid.unscale(hat2,"soc")
+    print(f"Actual SOC\t\t\tPredicted SOC")
     for i in range(len(gt)):
         actual = f"{gt[i]:.1f}".ljust(20)
         predicted = f"{hat[i]:.1f}".ljust(20)
