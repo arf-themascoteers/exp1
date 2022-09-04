@@ -18,11 +18,11 @@ def explore_sat():
         explore(path)
 
 
-dem = r'data/out/dem/dem.tif'
-soc = r'data/out/soc/000_005.tif'
-sat = r'data/out/sat'
+dem = r'data/out/resized/dem/dem.tif'
+soc = r'data/out/resized/soc/000_005.tif'
+sat = r'data/out/resized/sat'
 
 explore(dem)
 explore(soc)
-
+explore_sat()
 
