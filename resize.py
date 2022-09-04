@@ -5,8 +5,8 @@ from rasterio.enums import Resampling
 
 
 def resize(src, dest):
-    target_dim0 = 1165
-    target_dim1 = 1323
+    target_dim0 = 925
+    target_dim1 = 1275
     with rasterio.open(src) as dataset:
         matrix = dataset.read(1)
         data = dataset.read(
@@ -41,7 +41,10 @@ def resize_sat():
     dest_dir = "data/out/resized/sat"
     for file in os.listdir(src_dir):
         src = os.path.join(src_dir, file)
+        file = file.replace(".jp2",".tif")
         dest = os.path.join(dest_dir, file)
         resize(src, dest)
 
+resize_dem()
+resize_soc()
 resize_sat()
