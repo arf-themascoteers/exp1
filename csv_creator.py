@@ -30,7 +30,8 @@ csv_path = "data/out/csv.csv"
 file = open(csv_path, "w")
 
 patches = len(os.listdir(os.path.join(patch_dir,"1")))
-
+row = f"id,elevation,soc\n"
+file.write(row)
 with rasterio.open(dem, 'r') as dem_dataset:
     dem_data = dem_dataset.read(1)
     with rasterio.open(soc,'r') as soc_dataset:
