@@ -5,5 +5,5 @@ from osgeo import gdal
 
 print(gdal)
 
-gdf = gpd.read_file("C:/Users/Administrator/Downloads/Dataset/ERF/soil_carbon/sustainable intensification.shp")
+gdf = gpd.read_file("D:/Dataset/DEM/1_Second_DEM_4305716/Ancillary/DEMS_TileIndex.shp")
 print(gdf.head())
