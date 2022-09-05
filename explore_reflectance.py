@@ -7,12 +7,12 @@ import numpy
 
 
 def explore_sat():
-    array = np.zeros((9,20))
+    array = np.zeros((9,16))
     for band in range(1,10):
         src = f"C:/Users/Administrator/Desktop/exp1/data/out/patches/{band}/100.png"
         x = Image.open(src)
         ar = numpy.asarray(x)
-        array[band-1,:] =  ar[0, 0:20]
+        array[band-1,:] =  ar[0, :]
     plt.plot(array)
     plt.show()
 

@@ -6,8 +6,8 @@ import shutil
 src_dir = "C:/Users/Administrator/Desktop/exp1/data/out/resized/sat"
 dest_dir = "C:/Users/Administrator/Desktop/exp1/data/out/patches"
 
-PATCH_WIDTH = 64
-PATCH_HEIGHT = 64
+PATCH_WIDTH = 16
+PATCH_HEIGHT = 16
 
 for file in os.listdir(src_dir):
     patch_number = 1

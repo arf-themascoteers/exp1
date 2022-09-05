@@ -5,8 +5,8 @@ import rasterio
 
 dim0 = 925
 dim1 = 1275
-PATCH_WIDTH = 64
-PATCH_HEIGHT = 64
+PATCH_WIDTH = 16
+PATCH_HEIGHT = 16
 
 
 def patch_number_to_dims(patch_number):
@@ -49,4 +49,5 @@ with rasterio.open(dem, 'r') as dem_dataset:
             file.write(row)
             print(f"Done patch {patch}")
 
+print("Done all")
 file.close()

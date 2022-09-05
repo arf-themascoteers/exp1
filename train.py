@@ -7,7 +7,7 @@ from torch.utils.data import DataLoader
 from sat_machine import SatMachine
 
 def train(device):
-    batch_size = 60
+    batch_size = 200
     cid = SatDataset(is_train=True)
     dataloader = DataLoader(cid, batch_size=batch_size, shuffle=True)
     model = SatMachine()
@@ -15,7 +15,7 @@ def train(device):
     model.to(device)
     optimizer = torch.optim.Adam(model.parameters(), lr=1e-3, weight_decay=1e-5)
     criterion = torch.nn.MSELoss(reduction='mean')
-    num_epochs = 0
+    num_epochs = 5
     n_batches = int(len(cid)/batch_size) + 1
     batch_number = 0
     loss = None
@@ -25,8 +25,10 @@ def train(device):
         for (x, elevation, y) in dataloader:
             x = x.to(device)
             y = y.to(device)
+            elevation = elevation.to(device)
+            elevation = elevation.reshape(elevation.shape[0],1)
             optimizer.zero_grad()
-            y_hat = model(x)
+            y_hat = model(x, elevation)
             y_hat = y_hat.reshape(-1)
             loss = criterion(y_hat, y)
             loss.backward()

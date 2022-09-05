@@ -13,10 +13,11 @@ import random
 from sklearn.preprocessing import MinMaxScaler
 from sklearn import model_selection
 
+
 class SatDataset(Dataset):
     def __init__(self, is_train=True):
-        self.IMAGE_HEIGHT = 64
-        self.IMAGE_WIDTH = 64
+        self.IMAGE_HEIGHT = 16
+        self.IMAGE_WIDTH = 16
         self.is_train = is_train
         self.img_dir = "data/out/patches"
         self.csv_file_location = "data/out/csv.csv"
@@ -73,7 +74,8 @@ class SatDataset(Dataset):
             image = self.transforms(image)
             images[0,band-1,:,:] = image
 
-        return images, torch.tensor(elevation, dtype=torch.float32), torch.tensor(soc, dtype=torch.float32)
+        elevation = torch.tensor(elevation, dtype=torch.float32)
+        return images, elevation, torch.tensor(soc, dtype=torch.float32)
 
 
 if __name__ == "__main__":

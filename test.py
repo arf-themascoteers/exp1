@@ -21,7 +21,9 @@ def test(device):
     for (x, elevation, y) in dataloader:
         x = x.to(device)
         y = y.to(device)
-        y_hat = model(x)
+        elevation = elevation.to(device)
+        elevation = elevation.reshape(elevation.shape[0], 1)
+        y_hat = model(x, elevation)
         y_hat = y_hat.reshape(-1)
         loss = criterion(y_hat, y)
         itr = itr+1
