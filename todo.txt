@@ -1,0 +1,26 @@
+resnet - see test_para
+
+cloud cover
+
+exact dates
+
+patch size
+
+overlap
+
+more data
+
+elevation and other info
+
+remove 0 bands
+
+conv3d?
+
+---
+
+later
+
+---
+
+HSI image with drone
+SOC with dave's help

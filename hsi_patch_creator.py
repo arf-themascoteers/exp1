@@ -9,7 +9,7 @@ src_dir = "data/EO1H0940852016239110K1_1T"
 dest_dir = "data/out/hsi_patches"
 merged = "data/out/merged/hsi.tif"
 soc = r'data/out/soc/000_005.tif'
-csv_path = "data/out/csv.csv"
+csv_path = "data/out/hsi_csv.csv"
 
 PATCH_WIDTH = 32
 PATCH_HEIGHT = 32
