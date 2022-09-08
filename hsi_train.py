@@ -7,7 +7,7 @@ from torch.utils.data import DataLoader
 from hsi_machine import HsiMachine
 
 def train(device):
-    batch_size = 5
+    batch_size = 50
     cid = HsiDataset(is_train=True)
     dataloader = DataLoader(cid, batch_size=batch_size, shuffle=True)
     model = HsiMachine()
