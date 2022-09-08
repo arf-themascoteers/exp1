@@ -11,9 +11,9 @@ merged = "data/out/merged/hsi.tif"
 soc_file = r'data/out/soc/000_005.tif'
 csv_path = "data/out/hsi_csv.csv"
 
-PATCH_WIDTH = 32
-PATCH_HEIGHT = 32
-STRIDE = 16
+PATCH_WIDTH = 3
+PATCH_HEIGHT = 3
+STRIDE = 3
 
 def create_csv():
     patch_number = 0
@@ -54,7 +54,7 @@ def create_csv():
                     row = f"{patch_number},{soc}\n"
                     csv_file.write(row)
                     patch_number = patch_number + 1
-                top_left_x = top_left_x + PATCH_WIDTH
+                top_left_x = top_left_x + STRIDE
 
     csv_file.close()
     print("CSV done")
@@ -72,10 +72,14 @@ def is_valid(image):
 
 
 def eval_soc(soc_data, soc_height_ratio, soc_width_ratio, top_left_y, bot_right_y, top_left_x, bot_right_x):
-    soc_top_left_y = int(soc_height_ratio * top_left_y)
-    soc_bot_right_y = int(soc_height_ratio * bot_right_y)
-    soc_top_left_x = int(soc_width_ratio * top_left_x)
-    soc_bot_right_x = int(soc_width_ratio * bot_right_x)
+    soc_top_left_y = round(soc_height_ratio * top_left_y)
+    soc_bot_right_y = round(soc_height_ratio * bot_right_y)
+    soc_top_left_x = round(soc_width_ratio * top_left_x)
+    soc_bot_right_x = round(soc_width_ratio * bot_right_x)
+    if soc_top_left_x == soc_bot_right_x:
+        soc_bot_right_x = soc_bot_right_x + 1
+    if soc_top_left_y == soc_bot_right_y:
+        soc_bot_right_y = soc_bot_right_y + 1
     soc_patch = soc_data[soc_top_left_y:soc_bot_right_y, soc_top_left_x:soc_bot_right_x]
     return np.mean(soc_patch)
 

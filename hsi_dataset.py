@@ -27,7 +27,7 @@ class HsiDataset(Dataset):
             transforms.ToTensor(),
             transforms.Resize(self.IMAGE_HEIGHT)
         ])
-        self.bands = list(range(80,85))
+        self.bands = list(range(77, 79))
         self.df = pd.read_csv(self.csv_file_location)
         train, test = model_selection.train_test_split(self.df, test_size=0.2)
         self.df = train
