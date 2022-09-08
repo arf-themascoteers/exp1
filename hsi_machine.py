@@ -21,7 +21,6 @@ class HsiMachine(nn.Module):
             )
             weights_data = a_resnet.conv1.weight.data[:, 0]
             weights_data = weights_data.reshape(weights_data.shape[0], 1, weights_data.shape[1], weights_data.shape[2])
-            self.resnet.conv1 = nn.Conv2d(1, 64, kernel_size=(7, 7), stride=(2, 2), padding=(3, 3), bias=False)
             a_resnet.conv1 = nn.Conv2d(1, 64, kernel_size=(7, 7), stride=(2, 2), padding=(3, 3), bias=False)
             a_resnet.conv1.weight.data = weights_data
 
