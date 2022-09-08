@@ -7,10 +7,10 @@ soc_src = "data/out/soc/000_005.tif"
 with rio.open(sat_src,'r') as dataset:
     data = dataset.read(1)
     print(data.shape)
-
-with rio.open(dem_src,'r') as dataset:
-    data = dataset.read(1)
-    print(data.shape)
+#
+# with rio.open(dem_src,'r') as dataset:
+#     data = dataset.read(1)
+#     print(data.shape)
 
 with rio.open(soc_src,'r') as dataset:
     data = dataset.read(1)

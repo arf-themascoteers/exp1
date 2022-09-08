@@ -1,3 +1,8 @@
+==
+force overfit
+==
+try some other soc data (SMAP? SCARP?)- SOC_CSIRO might be faulty
+===
 resnet - see test_para
 
 cloud cover

@@ -6,9 +6,9 @@ from PIL import Image
 import numpy
 
 src_dir = f"data/out/hsi_patches"
-
+bands = list(range(80,85))
 def explore_sat():
-    for patch in range(1200, 1400, 50):
+    for patch in range(20, 25, 1):
         array = np.zeros(len(os.listdir(src_dir)))
         i = 0
         for file in os.listdir(src_dir):
