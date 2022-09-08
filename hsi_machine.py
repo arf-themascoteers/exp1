@@ -28,7 +28,7 @@ class HsiMachine(nn.Module):
         x = x.reshape(x.shape[0], self.N_BANDS, -1)
         x = [self.band_net[i](x[:,i]) for i in range(self.N_BANDS)]
         x = torch.stack(x, dim=1)
-        x = x.squeeze(dim=2)
+        x = x.reshape(x.shape[0], -1)
         x = self.fc(x)
         return x
 

@@ -67,11 +67,11 @@ class HsiDataset(Dataset):
         id = str(int(self.df.iloc[idx]["id"]))
         soc = self.df.iloc[idx]["soc"]
         images = torch.zeros((len(self.bands), 1, self.IMAGE_HEIGHT, self.IMAGE_WIDTH))
-        for band in self.bands:
+        for index, band in enumerate(self.bands):
             img_path = os.path.join(self.img_dir, str(band), id+".png")
             image = PIL.Image.open(img_path)
             image = self.transforms(image)
-            images[band,0,:,:] = image
+            images[index,0,:,:] = image
 
         return images, torch.tensor(soc, dtype=torch.float32)
 
