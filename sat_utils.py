@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 from rasterio.crs import CRS
 from rasterio import warp
 import rasterio
+from rasterio.enums import Resampling
 
 
 def within_box(left, up, right, bottom, target_left, target_up, target_right, target_bottom):
@@ -74,6 +75,25 @@ def to_32754(left, bottom, right, top):
     crs_src = CRS.from_epsg(4326)
     crs_dest = CRS.from_epsg(32754)
     return warp.transform_bounds(crs_src, crs_dest, left, bottom, right, top)
+
+
+def resize(src, dest):
+    target_dim0 = 100
+    target_dim1 = 100
+    with rasterio.open(src) as dataset:
+        data = dataset.read(
+            out_shape=(
+                dataset.count,
+                int(target_dim0),
+                int(target_dim1)
+            ),
+            resampling=Resampling.bilinear
+        )
+        profile = dataset.profile
+        profile.update(height=data.shape[1], width=data.shape[2], driver="GTiff")
+        with rasterio.open(dest, 'w', **profile) as dst:
+            dst.write(data)
+    print(f"Done resize {src}")
 
 if __name__ == "__main__":
     infile = r'data/sample/tiff/1_Second_DEM.tif'

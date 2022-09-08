@@ -2,7 +2,7 @@ import rasterio as rio
 import matplotlib.pyplot as plt
 from osgeo import gdal
 
-src = "data/out/soc/000_005.tif"
+src = r"C:\Users\Administrator\Downloads\EO1H0940852016239110K1_1T\EO1H0940852016239110K1_B001_L1T.TIF"
 
 with rio.open(src,'r') as f:
     for x in range(1, f.count+1):

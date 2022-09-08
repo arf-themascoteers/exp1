@@ -67,12 +67,12 @@ class SatDataset(Dataset):
         id = str(int(self.df.iloc[idx]["id"]))
         elevation = self.df.iloc[idx]["elevation"]
         soc = self.df.iloc[idx]["soc"]
-        images = torch.zeros((1, self.count_bands, self.IMAGE_HEIGHT, self.IMAGE_WIDTH))
+        images = torch.zeros((self.count_bands, 1, self.IMAGE_HEIGHT, self.IMAGE_WIDTH))
         for band in range(1,self.count_bands+1):
             img_path = os.path.join(self.img_dir, str(band), id+".png")
             image = PIL.Image.open(img_path)
             image = self.transforms(image)
-            images[0,band-1,:,:] = image
+            images[band-1,0,:,:] = image
 
         elevation = torch.tensor(elevation, dtype=torch.float32)
         return images, elevation, torch.tensor(soc, dtype=torch.float32)
